@@ -1,0 +1,85 @@
+---
+import { authorAlphabet, authors, catalogStats, featuredSearchResults } from '../data/catalog';
+import SiteShell from '../layouts/SiteShell.astro';
+import { SITE_DESCRIPTION, SITE_TAGLINE, SITE_TITLE } from '../consts';
+export const prerender = true;
+---
+
+<SiteShell title={SITE_TITLE} description={SITE_DESCRIPTION}>
+	<section class="search-home">
+		<div class="hero-copy">
+			<p class="eyebrow">Historical Baptist Library</p>
+			<h1>Search the writings of the Particular Baptists.</h1>
+			<p class="lede">{SITE_TAGLINE}</p>
+			<form class="search-shell" action="/search" method="get">
+				<div class="search-form">
+					<input
+						type="search"
+						name="q"
+						placeholder="Search sermons, confessions, treatises…"
+						aria-label="Search historical Particular Baptist texts"
+					/>
+					<button type="submit" class="button button-primary">Search</button>
+				</div>
+			</form>
+			<div class="hero-actions">
+				<a class="button button-secondary" href="/authors">Browse authors</a>
+				<a class="button button-secondary" href="/works">All works</a>
+			</div>
+		</div>
+
+	</section>
+
+	<section class="stats-grid" aria-label="Library statistics">
+		<article class="stat-card">
+			<p class="stat-value">{catalogStats.totalWorks}</p>
+			<p class="stat-label">Works in the library</p>
+		</article>
+		<article class="stat-card">
+			<p class="stat-value">{catalogStats.totalAuthors}</p>
+			<p class="stat-label">Historical authors</p>
+		</article>
+		<article class="stat-card">
+			<p class="stat-value">{catalogStats.textRichWorks}</p>
+			<p class="stat-label">Fully searchable works</p>
+		</article>
+		<article class="stat-card">
+			<p class="stat-value">{catalogStats.needsOcrWorks}</p>
+			<p class="stat-label">Historical scans</p>
+		</article>
+	</section>
+
+	<section class="section-heading">
+		<div>
+			<p class="eyebrow">Author navigation</p>
+			<h2>Browse the library by author.</h2>
+		</div>
+		<a class="text-link" href="/authors">View all authors →</a>
+	</section>
+
+	<section class="author-grid">
+		{
+			authors.slice(0, 8).map((author) => (
+				<article class="author-list-card">
+					<div class="author-row">
+						<h3>{author.name}</h3>
+						<span class="author-count">{author.works.length} {author.works.length === 1 ? 'work' : 'works'}</span>
+					</div>
+					<p class="author-summary">{author.summary}</p>
+					<a class="text-link" href={`/authors/${author.slug}`}>Browse author →</a>
+				</article>
+			))
+		}
+	</section>
+
+	<section class="section-heading">
+		<div>
+			<p class="eyebrow">Alphabetical index</p>
+			<h2>Browse authors by first letter.</h2>
+		</div>
+	</section>
+
+	<div class="alpha-index" aria-label="Author initials">
+		{authorAlphabet.map((letter) => <a href={`/authors#letter-${letter}`}>{letter}</a>)}
+	</div>
+</SiteShell>

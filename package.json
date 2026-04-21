@@ -1,0 +1,30 @@
+{
+  "name": "particular-baptists-cloudflare",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "dev:cf": "wrangler dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "ingest:pdfs": "node ./scripts/ingest/extract-pdf-text.mjs",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^12.6.13",
+    "@astrojs/mdx": "^4.3.14",
+    "@astrojs/sitemap": "^3.7.2",
+    "astro": "^5.18.1",
+    "pdf-parse": "^2.4.5",
+    "sharp": "^0.34.3",
+    "wrangler": "^4.84.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.8.3"
+  }
+}

@@ -1,0 +1,51 @@
+---
+import type { CatalogAuthor } from '../../data/catalog';
+import { authors, getWorksByAuthor } from '../../data/catalog';
+import SiteShell from '../../layouts/SiteShell.astro';
+export const prerender = true;
+
+export function getStaticPaths() {
+return authors.map((author) => ({
+params: { slug: author.slug },
+props: { author },
+}));
+}
+
+interface Props {
+author: CatalogAuthor;
+}
+
+const { author } = Astro.props;
+const works = getWorksByAuthor(author.slug);
+const description = `Works by ${author.name} — historical Particular Baptist writings available to read and search.`;
+---
+
+<SiteShell title={author.name} description={description}>
+<section class="page-intro">
+<div>
+<p class="eyebrow">Author</p>
+<h1>{author.name}</h1>
+<p class="lede">{author.summary}</p>
+</div>
+</section>
+
+<section class="feature-grid">
+<article class="card">
+<h2>Works in the library</h2>
+<ul class="work-list">
+{
+works.map((work) => (
+<li>
+<a class="text-link" href={`/works/${work.slug}`}>{work.title}</a>
+</li>
+))
+}
+</ul>
+</article>
+<article class="card">
+<h2>Search this author</h2>
+<p>Search across all works by {author.name} to find specific passages, topics, or themes.</p>
+<a class="button button-primary" href={`/search?author=${author.slug}`}>Search {author.name}</a>
+</article>
+</section>
+</SiteShell>

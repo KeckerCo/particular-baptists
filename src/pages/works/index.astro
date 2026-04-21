@@ -1,0 +1,106 @@
+---
+import { works } from '../../data/catalog';
+import SiteShell from '../../layouts/SiteShell.astro';
+export const prerender = true;
+
+const description =
+	'Browse all historical Particular Baptist writings in the IRBS library — sermons, confessions, treatises, and more.';
+---
+
+<SiteShell title="All Works" description={description}>
+	<section class="page-intro">
+		<div>
+			<p class="eyebrow">All works</p>
+			<h1>Browse the full collection.</h1>
+			<p class="lede">
+				{works.length} historical writings from 17th and 18th-century Particular Baptist ministers and
+				theologians. Use <a class="text-link" href="/search">search</a> to find specific passages or topics.
+			</p>
+		</div>
+	</section>
+
+	<section class="works-list">
+		{
+			works.map((work) => (
+				<article class="work-row">
+					<div class="work-row-meta">
+						<a class="work-author-link" href={`/authors/${work.authorSlug}`}>{work.author}</a>
+						{work.pageCount && <span class="work-pages">{work.pageCount} pp.</span>}
+					</div>
+					<h2 class="work-row-title">
+						<a href={`/works/${work.slug}`}>{work.title}</a>
+					</h2>
+					{work.snippet && <p class="work-row-snippet">{work.snippet}</p>}
+				</article>
+			))
+		}
+	</section>
+</SiteShell>
+
+<style>
+	.works-list {
+		max-width: 70rem;
+		margin: 0 auto;
+		padding: 0 1.5rem;
+	}
+
+	.work-row {
+		padding: 1.25rem 0;
+		border-bottom: 1px solid #e0dbd5;
+	}
+
+	.work-row-meta {
+		display: flex;
+		gap: 1rem;
+		align-items: baseline;
+		margin-bottom: 0.25rem;
+	}
+
+	.work-author-link {
+		font-family: 'Inter', system-ui, sans-serif;
+		font-size: 0.75rem;
+		font-weight: 500;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		color: #971B2F;
+		text-decoration: none;
+	}
+
+	.work-author-link:hover {
+		text-decoration: underline;
+	}
+
+	.work-pages {
+		font-family: 'Inter', system-ui, sans-serif;
+		font-size: 0.75rem;
+		color: #999;
+	}
+
+	.work-row-title {
+		font-family: 'EB Garamond', Georgia, serif;
+		font-size: 1.2rem;
+		font-weight: 500;
+		color: #1a1209;
+		margin: 0 0 0.35rem;
+	}
+
+	.work-row-title a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.work-row-title a:hover {
+		color: #971B2F;
+	}
+
+	.work-row-snippet {
+		font-family: 'EB Garamond', Georgia, serif;
+		font-size: 1rem;
+		color: #666;
+		margin: 0;
+		overflow: hidden;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+</style>

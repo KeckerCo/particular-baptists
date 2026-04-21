@@ -1,0 +1,55 @@
+---
+import SiteShell from '../layouts/SiteShell.astro';
+export const prerender = true;
+
+const description = 'About the Particular Baptists Library — an IRBS project preserving historical Baptist writings in a searchable, readable format.';
+---
+
+<SiteShell title="About" description={description}>
+	<section class="page-intro">
+		<p class="eyebrow">About this library</p>
+		<h1>Preserving the writings of the Particular Baptists.</h1>
+		<p class="lede">
+			The Particular Baptists Library is a project of the International Reformed Baptist Seminary (IRBS),
+			dedicated to making the writings of 17th and 18th-century Particular Baptist ministers and theologians
+			accessible to students, pastors, and researchers.
+		</p>
+	</section>
+
+	<section class="feature-grid">
+		<article class="card">
+			<h2>What you will find here</h2>
+			<p>
+				Sermons, confessions, treatises, and histories from the foundational generation of Particular Baptist
+				life in Britain and America — works by figures such as Benjamin Keach, Hanserd Knollys, William Kiffin,
+				John Gill, Andrew Fuller, and many others.
+			</p>
+		</article>
+		<article class="card">
+			<h2>Search and browse</h2>
+			<p>
+				The library is built around full-text search. Type any word, phrase, or author name to find relevant
+				passages across the entire collection. You can also browse alphabetically by author to explore the
+				writings of a particular figure.
+			</p>
+		</article>
+		<article class="card">
+			<h2>Reading editions</h2>
+			<p>
+				Where text has been extracted from the historical sources, it is presented in a clean, proportioned
+				reading layout optimised for phones and tablets — free from the scanning artefacts of the original
+				facsimiles.
+			</p>
+		</article>
+		<article class="card">
+			<h2>About IRBS</h2>
+			<p>
+				The International Reformed Baptist Seminary (IRBS) is an independent confessional seminary based in
+				Mansfield, Texas, preparing men for pastoral ministry in the Reformed Baptist tradition. IRBS subscribes
+				to the Second London Baptist Confession of 1689. This library is part of IRBS's commitment to recovering
+				and preserving the Particular Baptist heritage.
+			</p>
+			<a class="text-link" href="https://irbs.org" target="_blank" rel="noopener">Visit IRBS →</a>
+		</article>
+	</section>
+</SiteShell>

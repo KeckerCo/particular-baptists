@@ -1,0 +1,69 @@
+---
+import type { CatalogWork } from '../../data/catalog';
+import { works } from '../../data/catalog';
+import SiteShell from '../../layouts/SiteShell.astro';
+export const prerender = true;
+
+export function getStaticPaths() {
+return works.map((work) => ({
+params: { slug: work.slug },
+props: { work },
+}));
+}
+
+interface Props {
+work: CatalogWork;
+}
+
+const { work } = Astro.props;
+const description = `${work.title} by ${work.author}. Read the full historical text from the Particular Baptists Library.`;
+const isAvailable = work.sampleText.length > 0;
+---
+
+<SiteShell title={work.title} description={description}>
+<section class="page-intro">
+<div>
+<p class="eyebrow"><a class="text-link" href={`/authors/${work.authorSlug}`}>{work.author}</a></p>
+<h1>{work.title}</h1>
+{work.pageCount && <p class="lede">{work.pageCount} pages</p>}
+</div>
+</section>
+
+<section class="reading-layout">
+<aside class="reading-sidebar">
+<div>
+<p class="eyebrow">About this work</p>
+<ul class="reading-meta-list">
+<li><strong>Author</strong><a class="text-link" href={`/authors/${work.authorSlug}`}>{work.author}</a></li>
+{work.pageCount && <li><strong>Pages</strong>{work.pageCount}</li>}
+<li>
+<strong>Text</strong>
+<span class:list={['quality-badge', work.qualityLabel]}>
+{work.qualityLabel === 'text-rich' ? 'Fully searchable' : 'Historical scan'}
+</span>
+</li>
+</ul>
+</div>
+<div>
+<a class="button button-secondary" href={`/search?author=${work.authorSlug}`}>More by {work.author}</a>
+</div>
+</aside>
+
+<article class="reading-content">
+<div class="reading-body">
+{isAvailable ? (
+work.sampleText.map((paragraph) => <p>{paragraph}</p>)
+) : (
+<div class="scan-notice">
+<p class="lede">This work is preserved as a historical scan.</p>
+<p>
+The original document has been digitised and is held in the library, but the text has not yet been
+transcribed for full-text reading and search. Check back as the library grows.
+</p>
+<a class="button button-secondary" href="/search">Search available works</a>
+</div>
+)}
+</div>
+</article>
+</section>
+</SiteShell>
