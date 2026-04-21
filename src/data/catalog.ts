@@ -190,7 +190,7 @@ const getRawCatalogWorks = (): CatalogWork[] => {
 			const authorSlug = slugify(author);
 			const title = deriveTitle(raw.sourcePdf);
 			const cleanedText = cleanExtractedText(raw.text ?? '');
-			const sampleText = splitParagraphs(cleanedText).slice(0, 16);
+			const sampleText = splitParagraphs(cleanedText);
 			const wordCount = cleanedText.split(/\s+/).filter(Boolean).length;
 			const isThinExtraction = cleanedText.length < 500 || sampleText.length === 0;
 			const snippet =

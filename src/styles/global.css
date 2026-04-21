@@ -524,10 +524,10 @@ max-width: var(--reading-width);
 font-family: var(--font-serif);
 font-size: clamp(1.05rem, 1.5vw, 1.2rem);
 line-height: 1.95;
-color: var(--color-text);
+color: #1a1208;
 }
 
-.reading-body p + p { margin-top: 1.25rem; }
+.reading-body p + p { margin-top: 1.25em; margin-bottom: 0; }
 
 .reading-body h2 {
 margin: 2.5rem 0 1rem;
@@ -547,9 +547,46 @@ color: var(--color-muted);
 .scan-notice {
 display: flex;
 flex-direction: column;
-gap: 1rem;
-padding: 2rem 0;
-border-top: 1px solid var(--color-rule);
+align-items: flex-start;
+gap: 1.25rem;
+padding: 2.5rem;
+border: 1px solid var(--color-rule);
+border-top: 4px solid var(--color-accent);
+border-radius: 4px;
+max-width: 38rem;
+}
+
+.scan-notice-accent { display: none; }
+
+.scan-notice-icon {
+color: var(--color-accent);
+flex-shrink: 0;
+}
+
+.scan-notice-title {
+font-family: var(--font-serif);
+font-size: 1.5rem;
+font-weight: 400;
+color: var(--color-ink);
+margin: 0;
+line-height: 1.2;
+}
+
+.scan-notice-body {
+font-family: var(--font-serif);
+font-size: 1rem;
+line-height: 1.75;
+color: var(--color-text);
+margin: 0;
+}
+
+.scan-notice-meta {
+font-family: var(--font-ui);
+font-size: 0.8rem;
+font-weight: 500;
+letter-spacing: 0.04em;
+color: var(--color-muted);
+margin: 0;
 }
 
 /* ==========================================================================
