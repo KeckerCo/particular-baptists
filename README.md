@@ -1,36 +1,34 @@
 # Particular Baptists Library
 
-An IRBS-branded Cloudflare site for historical Particular Baptist resources, built around a search-first experience, author navigation, and mobile-first long-form reading over extracted PDF content.
+A searchable digital library of historical Particular Baptist writings — sermons, confessions, and treatises from the 17th and 18th centuries. An [IRBS](https://irbs.org) project.
+
+**Live site:** https://particularbaptists.kecker.co
 
 ## Stack
 
-- Astro with the Cloudflare adapter
-- Cloudflare Workers + Wrangler
-- Cloudflare D1 schema for metadata and search chunks
-- Local PDF ingestion workflow with `pdf-parse`
-- Custom editorial design system tuned for mobile reading
-- Search-first IA with author browse as a top-level navigation path
+- Astro 5 (fully static, all pages pre-rendered)
+- Cloudflare Pages hosting
+- Client-side full-text search (`/search-index.json`)
+- EB Garamond + Inter typography, minimalist IRBS design system
+- 212 works by 31 historical Particular Baptist authors (pre-1900)
 
-## 🚀 Project Structure
+## Project structure
 
 ```text
 ├── content/
 │   ├── pdfs/
-│   │   ├── inbox/       # drop raw source PDFs here
-│   │   └── tmp/         # transient extraction artifacts
+│   │   └── inbox/          # drop source PDFs here (gitignored)
 │   └── works/
-│       └── generated/   # normalized output from ingestion scripts
-├── db/
-│   └── schema.sql       # D1 metadata + FTS schema
+│       └── generated/      # extracted text JSON files (212 works)
 ├── scripts/
-│   └── ingest/          # PDF extraction and normalization
+│   └── ingest/             # PDF text extraction scripts
 ├── src/
-│   ├── components/
-│   ├── data/
-│   ├── layouts/
-│   ├── pages/
-│   └── styles/
-└── wrangler.jsonc
+│   ├── components/         # Header, Footer, SiteShell
+│   ├── data/               # catalog.ts — all data logic
+│   ├── pages/              # index, search, authors, works, about
+│   └── styles/             # global.css design system
+├── public/                 # irbs-wordmark.svg, irbs-shield.svg, favicon
+└── .github/workflows/      # deploy.yml — CI/CD to Cloudflare Pages
 ```
 
 ## Local development
@@ -40,57 +38,44 @@ npm install
 npm run dev
 ```
 
-For Cloudflare-local development:
+To preview the production build locally:
 
 ```sh
 npm run build
-npm run dev:cf
+python3 -m http.server 8899 -d dist
+# open http://localhost:8899/index.html
 ```
 
-## PDF inbox
+## Deployment
 
-Put source facsimile PDFs here:
+Every push to `main` automatically deploys to Cloudflare Pages via GitHub Actions.
 
-```text
-content/pdfs/inbox/
+### One-time setup: add the Cloudflare API token
+
+1. Go to https://dash.cloudflare.com/profile/api-tokens
+2. Click **Create Token** → use the **"Edit Cloudflare Pages"** template
+3. Add the token as a GitHub secret:
+
+```sh
+gh secret set CLOUDFLARE_API_TOKEN --repo KeckerCo/particular-baptists
 ```
 
-That folder is already gitignored except for its `.gitkeep`, so you can copy files there without adding them to Git.
+The `CLOUDFLARE_ACCOUNT_ID` variable is already set in the repo.
 
-## Ingestion
+## Adding PDFs
 
-Extract raw text from PDFs currently in the inbox:
+Drop source facsimile PDFs into `content/pdfs/inbox/` (gitignored) then run:
 
 ```sh
 npm run ingest:pdfs
 ```
 
-Output goes to:
+Extracted text goes to `content/works/generated/` and is committed to the repo.
 
-```text
-content/works/generated/
-```
+## Design system
 
-The first script handles text-based PDFs now and fails explicitly for image-only scans so OCR can be added as the next step instead of silently producing bad output.
-
-## Information architecture
-
-- **Primary experience:** search
-- **Primary browse path:** authors
-- **Secondary browse path:** works
-- **Reading model:** editorial web editions instead of embedded PDF viewers
-
-## Search storage
-
-`db/schema.sql` contains the starting D1 schema:
-- works metadata
-- sections
-- search chunks
-- FTS index
-
-## Deployment notes
-
-1. Create a D1 database and update `wrangler.jsonc`.
-2. Set `SITE_URL` for the production domain if needed.
-3. Build with `npm run build`.
-4. Deploy with Wrangler.
+- Primary color: `#9c182f` (IRBS maroon)
+- Serif: EB Garamond (headings, body)
+- UI: Inter (labels, navigation, metadata)
+- No shadows, no card fills — 1px ruled lines for separation
+- `border-radius: 6px` on interactive elements, `10px` on grid containers

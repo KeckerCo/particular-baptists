@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
-const site = process.env.SITE_URL ?? 'https://particularbaptists.irbs.org';
+const site = process.env.SITE_URL ?? 'https://particularbaptists.kecker.co';
 
 export default defineConfig({
 	site,
